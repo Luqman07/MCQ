@@ -1,7 +1,6 @@
 let score = 0
 let i = 0
 let getValue;
-const pickedAnswers = []
 const arrayOfQuestions = [
     {
         question: 'How many sides does a triangle have',
