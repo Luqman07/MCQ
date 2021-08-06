@@ -3,20 +3,38 @@ let i = 0
 let getValue;
 const arrayOfQuestions = [
     {
-        question: 'How many sides does a triangle have',
-        options: [1, 2, 3],
-        answer: 1,
+        question: 'What is the capital of Saudi Arabia',
+        options: ['Lima', 'Riyadh', 'Jarkata'],
+        answer: 'Riyadh',
         chosen_answer: ''
     },
     {
-        question: 'How many sides does a pentagon have',
+        question: 'How many sides is a Pentagon',
         options: [2, 5, 0],
         answer: 5,
+        chosen_answer: ''
+    },
+    {
+        question: 'How many sides is an Octagon',
+        options: [2, 5, 8],
+        answer: 8,
+        chosen_answer: ''
+    },
+    {
+        question: 'What is the capital of Italy',
+        options: ['Nicaragua', 'Athens', 'Rome'],
+        answer: 'Rome',
+        chosen_answer: ''
+    },
+    {
+        question: 'Who discovered the <em>Law of Gravity</em>',
+        options: ['Stephen Hawking', 'Sir Isaac Newton', 'Charles Babbage'],
+        answer: 'Sir Isaac Newton',
         chosen_answer: ''
     }
 ]
 const check = (e) => {
-    getValue.forEach(ele=>{
+    getValue.forEach(ele => {
         ele.checked = false
     })
     val = e.target
@@ -25,10 +43,6 @@ const check = (e) => {
     console.log(arrayOfQuestions[i].chosen_answer);
 }
 const displayQuestion = () => {
-    if(!arrayOfQuestions[i]){
-        alert('Limit reached')
-        return
-    }
     document.querySelector('.num').innerHTML = `Question ${i + 1}`
     question.innerHTML = arrayOfQuestions[i].question
     options.innerHTML = ''
@@ -47,19 +61,44 @@ const displayQuestion = () => {
             ele.checked = true
         }
     })
-    
+
 }
 displayQuestion()
-const navigateQuestion = (e)=>{
+const navigateQuestion = (e) => {
     if (e.target.innerHTML === 'Next') {
+        if (i === arrayOfQuestions.length - 1) {
+            document.getElementById('submit').classList.remove('d-none')
+            return
+        }
         i++
         displayQuestion()
-    }else{
-        if (e.target.innerHTML === 'Previous'){
-            i--
-            displayQuestion()
+    } else if (e.target.innerHTML === 'Previous') {
+        if (i === 0) {
+            return
+        }else{
+            document.getElementById('submit').classList.add('d-none')
         }
+        i--
+        displayQuestion()
     }
 }
+const total = ()=>{
+    arrayOfQuestions.forEach(e =>{
+        if (e.chosen_answer == e.answer) {
+            console.log(e.chosen_answer, e.answer);
+            score+= 100 / arrayOfQuestions.length  
+        }        
+    })
+    document.querySelector('.con').innerHTML = ` <div class="card d-flex justify-content-center align-items-center" style="width: 35rem;">
+   
+    <div class="card-body">
+    Your score is ${score}%
+    </div>
+
+     </div>`
+    score = 0
+}
+
+document.getElementById('submit').addEventListener('click', total)
 document.querySelector('.prev').addEventListener('click', navigateQuestion)
 document.querySelector('.next').addEventListener('click', navigateQuestion)
