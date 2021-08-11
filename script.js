@@ -59,7 +59,7 @@ const interval = () => {
             document.getElementById('count').innerHTML = count 
             count--
         }
-    }, 2000);
+    }, 1000);
 
 }
 
@@ -105,16 +105,14 @@ const template =()=>{
 
 </div>
     `
+    interval()
     document.getElementById('submit').addEventListener('click', total)
     document.querySelector('.btn').addEventListener('click', navigateQuestion)
-    
-
     displayQuestion()
 }
 
 
 const displayQuestion = () => {
-    interval()
    
     document.querySelector('.num').innerHTML = `Question ${i + 1}`
     question.innerHTML = arrayOfQuestions[i].question
