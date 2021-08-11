@@ -1,6 +1,8 @@
 let score = 0
 let i = 0
 let getValue;
+let count = 10
+
 const arrayOfQuestions = [
     {
         question: 'What is the capital of Saudi Arabia',
@@ -34,20 +36,34 @@ const arrayOfQuestions = [
     }
 ]
 const startQuiz = () => {
-    document.querySelector('.con').innerHTML = ` <div class="card d-flex justify-content-center align-items-center" style="width: 35rem;">
-   
-    <div class="card-body">
+    document.querySelector('.con').innerHTML = ` 
      <button class="btn btn-dark" id="start">Start </button>
-     <div class="spinner-border spin d-none"></div>
-    </div>
-
-     </div>`
+     <div class="spinner-border text-secondary spin d-none"></div>
+    `
 }
 startQuiz()
-const setTimer = () => {
-    setTimeout(displayQuestion, 2000);
+const setTimer = (fun) => {
+    setTimeout(fun, 2000);
 }
-const check = (e) => {
+
+
+const interval = () => {
+    let countDown = setInterval(() => {
+        console.log('hey');
+        if (count === 0) {
+            clearInterval(countDown)
+            document.querySelector('.con').innerHTML = `<div class="spinner-border text-secondary"></div>`
+            setTimer(total)
+        } else {
+           
+            document.getElementById('count').innerHTML = count 
+            count--
+        }
+    }, 2000);
+
+}
+
+const checkAndStoreAns = (e) => {
     getValue.forEach(ele => {
         ele.checked = false
     })
@@ -56,24 +72,24 @@ const check = (e) => {
     val.checked = true
     console.log(arrayOfQuestions[i].chosen_answer);
 }
-const displayQuestion = () => {
+
+
+const template =()=>{
     document.querySelector('.con').innerHTML = `
     <div style="width: 900px; ">
     <div class="mx-auto main" >
         <div class="card">
-            <div class="card-header num">
-                Question
+            <div class="card-header d-flex justify-content-between">
+               <p class="num lg"></p>
+               <h5 id="count"></h5>
             </div>
             <div class="card-body">
-                <p id="question">What is your name</p>
-                <form id="options" action="">
-
-                </form>
-
+                <p id="question"></p>
+                <form id="options" action=""></form>
             </div>
 
         </div>
-        <div class="d-flex justify-content-between mt-3">
+        <div class="d-flex justify-content-between mt-3 btn">
             <div>
                 <button class="btn btn-primary prev">Previous</button>
             </div>
@@ -89,6 +105,17 @@ const displayQuestion = () => {
 
 </div>
     `
+    document.getElementById('submit').addEventListener('click', total)
+    document.querySelector('.btn').addEventListener('click', navigateQuestion)
+    
+
+    displayQuestion()
+}
+
+
+const displayQuestion = () => {
+    interval()
+   
     document.querySelector('.num').innerHTML = `Question ${i + 1}`
     question.innerHTML = arrayOfQuestions[i].question
     options.innerHTML = ''
@@ -102,36 +129,35 @@ const displayQuestion = () => {
     })
     getValue = document.querySelectorAll('input')
     getValue.forEach(ele => {
-        ele.addEventListener('change', check)
+        ele.addEventListener('change', checkAndStoreAns)
         if (ele.value === arrayOfQuestions[i].chosen_answer) {
             ele.checked = true
         }
     })
-    document.getElementById('submit').addEventListener('click', total)
-    document.querySelector('.prev').addEventListener('click', navigateQuestion)
-    document.querySelector('.next').addEventListener('click', navigateQuestion)
+    i === 0 ? document.querySelector('.prev').disabled = true : document.querySelector('.prev').disabled = false
 
+   
 }
 let start = document.getElementById('start')
-let spin = document.querySelector('.spin') 
+let spin = document.querySelector('.spin')
 start.addEventListener('click', () => {
     start.classList.add('d-none')
     spin.classList.remove('d-none')
-    setTimer()
+    setTimer(template)
 })
 const navigateQuestion = (e) => {
     if (e.target.innerHTML === 'Next') {
         i++
         displayQuestion()
         if (arrayOfQuestions.length - 1 === i) {
+            document.querySelector('.next').disabled = true
             document.getElementById('submit').classList.remove('d-none')
-            return
         }
 
     } else if (e.target.innerHTML === 'Previous') {
         if (i === 0) {
             return
-        } else {
+        } else { 
             document.getElementById('submit').classList.add('d-none')
         }
         i--
@@ -139,9 +165,9 @@ const navigateQuestion = (e) => {
     }
 }
 const total = () => {
+    console.log('Hey');
     arrayOfQuestions.forEach(e => {
         if (e.chosen_answer == e.answer) {
-            console.log(e.chosen_answer, e.answer);
             score += 100 / arrayOfQuestions.length
         }
     })
