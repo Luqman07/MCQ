@@ -55,7 +55,6 @@ const interval = () => {
             document.querySelector('.con').innerHTML = `<div class="spinner-border text-secondary"></div>`
             setTimer(total)
         } else {
-           
             document.getElementById('count').innerHTML = count 
             count--
         }
@@ -75,6 +74,7 @@ const checkAndStoreAns = (e) => {
 
 
 const template =()=>{
+    interval()
     document.querySelector('.con').innerHTML = `
     <div style="width: 900px; ">
     <div class="mx-auto main" >
@@ -105,8 +105,11 @@ const template =()=>{
 
 </div>
     `
-    interval()
-    document.getElementById('submit').addEventListener('click', total)
+   
+    document.getElementById('submit').addEventListener('click', ()=>{
+        document.querySelector('.con').innerHTML = `<div class="spinner-border text-secondary"></div>`
+        setTimer(total)
+    })
     document.querySelector('.btn').addEventListener('click', navigateQuestion)
     displayQuestion()
 }
@@ -156,6 +159,7 @@ const navigateQuestion = (e) => {
         if (i === 0) {
             return
         } else { 
+            document.querySelector('.next').disabled = false
             document.getElementById('submit').classList.add('d-none')
         }
         i--
