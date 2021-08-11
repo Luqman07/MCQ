@@ -1,7 +1,7 @@
 let score = 0
 let i = 0
 let getValue;
-let count = 10
+let count = 15
 
 const arrayOfQuestions = [
     {
