@@ -1,44 +1,138 @@
 let score = 0
 let i = 0
 let getValue;
-let count = 10
+let count = 90
+let submitCheck = false
 
 const arrayOfQuestions = [
     {
-        question: 'What is the capital of Saudi Arabia',
-        options: ['Lima', 'Riyadh', 'Jarkata'],
-        answer: 'Riyadh',
+        question: 'What is the current world record time for the 100m race',
+        options: [9.58, 9.63, 9.68],
+        answer: 9.58,
         chosen_answer: ''
     },
     {
-        question: 'How many sides is a Pentagon',
-        options: [2, 5, 0],
-        answer: 5,
+        question: 'Is Will Smith an Oscar winning actor',
+        options: ['True', 'False'],
+        answer: 'False',
         chosen_answer: ''
     },
     {
-        question: 'How many sides is an Octagon',
-        options: [2, 5, 8],
-        answer: 8,
+        question: 'What is the capital of Uganda',
+        options: ['Kampala', 'Ouagadougou', 'Khartoum'],
+        answer: 'Kampala',
         chosen_answer: ''
     },
     {
-        question: 'What is the capital of Italy',
-        options: ['Nicaragua', 'Athens', 'Rome'],
-        answer: 'Rome',
+        question: 'When Michael Jordan played for the Chicago Bulls, how many NBA Championships did he win',
+        options: [5, 12, 6],
+        answer: 6,
         chosen_answer: ''
     },
     {
-        question: 'Who discovered the <em>Law of Gravity</em>',
-        options: ['Stephen Hawking', 'Sir Isaac Newton', 'Charles Babbage'],
-        answer: 'Sir Isaac Newton',
+        question: 'Which Tennis Grand Slam is played on a clay surface',
+        options: ['Wimbledon', 'Roland Garros', 'US Open'],
+        answer: 'Roland Garros',
+        chosen_answer: ''
+    },
+    {
+        question: 'What is smallest planet in our solar system',
+        options: ['Earth', 'Pluto', 'Mercury'],
+        answer: 'Mercury',
+        chosen_answer: ''
+    },
+    {
+        question: 'In what year did Tony Blair become British Prime Minister',
+        options: [1997, 1994, 1995],
+        answer: 1997,
+        chosen_answer: ''
+    },
+    {
+        question: 'What is the capital of New Zealand',
+        options: ['Suva', 'Canberra', 'Wellington'],
+        answer: 'Wellington',
+        chosen_answer: ''
+    },
+    {
+        question: 'What are the five colours of the Olympic rings',
+        options: ['Green, Blue, Yellow, Gold and Red', 'Orange, Maroon, Green, Red and Blue', 'Blue, Yellow, Green, Black and Red'],
+        answer: 'Blue, Yellow, Green, Black and Red',
+        chosen_answer: ''
+    },
+    {
+        question: 'Which Athlete has won the most Olympic medals',
+        options: ['Michael Phelps', 'Carl Lewis', 'Usain Bolt'],
+        answer: 'Michael Phelps',
+        chosen_answer: ''
+    },
+    {
+        question: 'Which actor played Neo in The Matrix',
+        options: ['Keanu Reeves', 'Robert Pattison', 'Paul Rudd'],
+        answer: 'Keanu Reeves',
+        chosen_answer: ''
+    },
+    {
+        question: 'Which colour pill does Neo Swallow in The Matrix',
+        options: ['Red', 'Green', 'Blue'],
+        answer: 'Red',
+        chosen_answer: ''
+    },
+    {
+        question: 'Which of the following presidents was assasinated',
+        options: ['John F. Kennedy', 'Jimmy Carter', 'Franklin D. Roosevelt'],
+        answer: 'John F. Kennedy',
+        chosen_answer: ''
+    },
+    {
+        question: 'World War 1 took place between',
+        options: ['1939-1945', '1912-1916', '1914-1918'],
+        answer: '1914-1918',
+        chosen_answer: ''
+    },
+    {
+        question: 'What year did Nigeria win Olympic gold medal in football',
+        options: [1992, 1996, 2004],
+        answer: 1996,
+        chosen_answer: ''
+    },
+    {
+        question: 'Who was the second man to set foot on the moon',
+        options: ['Neil Armstrong', 'Buzz Aldrin', 'Scott Carpenter'],
+        answer: 'Buzz Aldrin',
+        chosen_answer: ''
+    },
+    {
+        question: 'General Yakubu Gowon was the youngest Head of State in Nigeria, what was his age?',
+        options: [37, 32, 34],
+        answer: 32,
+        chosen_answer: ''
+    },
+    {
+        question: 'Which of the following states make up the North central geopolitical zone',
+        options: ['Nasarawa, Bornu, Adamawa, Taraba, Niger, Kwara', 'Benue, Kogi, Kwara, Niger, Nasarawa, Plateau, FCT', 'Sokoto, Kaduna, FCT, Gombe, Jigawa, Kebbi'],
+        answer: 'Benue, Kogi, Kwara, Niger, Nasarawa, Plateau, FCT',
+        chosen_answer: ''
+    },
+    {
+        question: 'What is the capital of Belgium',
+        options: ['Brussels', 'Bujumbura', 'Kingston'],
+        answer: 'Brussels',
+        chosen_answer: ''
+    },
+    {
+        question: 'In 1966, the Nigerian coup d\'etat was led by',
+        options: ['Chukuma Kaduna Nzeogwu and Emmanuel Ifeajuna', 'Timothy Onwuatuegwu and Chris Anuforo', 'Adewale Ademoyega'],
+        answer: 'Chukuma Kaduna Nzeogwu and Emmanuel Ifeajuna',
         chosen_answer: ''
     }
 ]
 const startQuiz = () => {
-    document.querySelector('.con').innerHTML = ` 
-     <button class="btn btn-dark" id="start">Start </button>
-     <div class="spinner-border text-secondary spin d-none"></div>
+    document.querySelector('.con').innerHTML = `
+      <div class="text-center">
+        <h1 >Time: 120s</h1> 
+        <div class="mt-3"><button class="btn btn-dark" id="start">Start </button></div>
+        <div class="spinner-border text-secondary spin d-none"></div>
+      </div>
     `
 }
 startQuiz()
@@ -48,14 +142,19 @@ const setTimer = (fun) => {
 
 
 const interval = () => {
+    let countDom = document.getElementById('count')
     let countDown = setInterval(() => {
         console.log('hey');
-        if (count === 0) {
+        if (submitCheck) {
+            clearInterval(countDown);
+        }
+        else if (count === 0) {
+            console.log('count=0');
             clearInterval(countDown)
             document.querySelector('.con').innerHTML = `<div class="spinner-border text-secondary"></div>`
             setTimer(total)
         } else {
-            document.getElementById('count').innerHTML = count 
+            countDom.innerHTML = count
             count--
         }
     }, 1000);
@@ -73,8 +172,7 @@ const checkAndStoreAns = (e) => {
 }
 
 
-const template =()=>{
-    interval()
+const template = () => {
     document.querySelector('.con').innerHTML = `
     <div style="width: 900px; ">
     <div class="mx-auto main" >
@@ -105,18 +203,23 @@ const template =()=>{
 
 </div>
     `
-   
-    document.getElementById('submit').addEventListener('click', ()=>{
+
+    document.getElementById('submit').addEventListener('click', () => {
+        submitCheck = true
         document.querySelector('.con').innerHTML = `<div class="spinner-border text-secondary"></div>`
         setTimer(total)
+
+
     })
     document.querySelector('.btn').addEventListener('click', navigateQuestion)
     displayQuestion()
+    interval()
+
 }
 
 
 const displayQuestion = () => {
-   
+
     document.querySelector('.num').innerHTML = `Question ${i + 1}`
     question.innerHTML = arrayOfQuestions[i].question
     options.innerHTML = ''
@@ -137,7 +240,7 @@ const displayQuestion = () => {
     })
     i === 0 ? document.querySelector('.prev').disabled = true : document.querySelector('.prev').disabled = false
 
-   
+
 }
 let start = document.getElementById('start')
 let spin = document.querySelector('.spin')
@@ -158,7 +261,7 @@ const navigateQuestion = (e) => {
     } else if (e.target.innerHTML === 'Previous') {
         if (i === 0) {
             return
-        } else { 
+        } else {
             document.querySelector('.next').disabled = false
             document.getElementById('submit').classList.add('d-none')
         }
