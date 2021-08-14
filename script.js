@@ -1,7 +1,7 @@
 let score = 0
 let i = 0
 let getValue;
-let count = 120
+let count = 180
 let submitCheck = false
 
 const arrayOfQuestions = [
@@ -129,7 +129,7 @@ const arrayOfQuestions = [
 const startQuiz = () => {
     document.querySelector('.con').innerHTML = `
       <div class="text-center">
-        <h2>Time: 120s</h2> 
+        <h2>Time: 180s</h2> 
         <div class="mt-3"><button class="btn btn-dark" id="start">Start </button></div>
         <div class="spinner-border text-secondary spin d-none"></div>
       </div>
