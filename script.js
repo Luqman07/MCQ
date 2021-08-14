@@ -129,7 +129,8 @@ const arrayOfQuestions = [
 const startQuiz = () => {
     document.querySelector('.con').innerHTML = `
       <div class="text-center">
-        <h2>Time: 180s</h2> 
+        <h1>20 Question</h1> 
+        <h3>Time: 180s</h3> 
         <div class="mt-3"><button class="btn btn-dark" id="start">Start </button></div>
         <div class="spinner-border text-secondary spin d-none"></div>
       </div>
